@@ -9,18 +9,26 @@ const themes = {
   dracula: 'dracula',
 }
 
-const getInitialTheme = () => {
-  const savedTheme = localStorage.getItem('theme')
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  return savedTheme || (prefersDark ? themes.dracula : themes.winter)
-}
-
 const Navbar = () => {
-  const [theme, setTheme] = useState(getInitialTheme)
+  const [theme, setTheme] = useState(null)
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
+    const savedTheme = localStorage.getItem('theme')
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches
+    const initialTheme =
+      savedTheme || (prefersDark ? themes.dracula : themes.winter)
+
+    setTheme(initialTheme)
+    document.documentElement.setAttribute('data-theme', initialTheme)
+  }, [])
+
+  useEffect(() => {
+    if (theme) {
+      localStorage.setItem('theme', theme)
+      document.documentElement.setAttribute('data-theme', theme)
+    }
   }, [theme])
 
   const handleTheme = () => {
@@ -73,7 +81,7 @@ const Navbar = () => {
             <div className='indicator'>
               <BsCart3 className=' h-6 w-6' />
               <span className='badge badge-sm badge-primary indicator-item'>
-                8
+                0
               </span>
             </div>
           </NavLink>

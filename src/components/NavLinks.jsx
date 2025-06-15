@@ -19,7 +19,7 @@ const NavLinks = () => {
             <NavLink
               to={url}
               className={({ isActive }) =>
-                isActive ? 'capitalize text-primary font-bold' : 'capitalize'
+                isActive ? 'capitalize bg-neutral' : 'capitalize'
               }
             >
               {text}
